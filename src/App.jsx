@@ -40,7 +40,7 @@ function App() {
       )}
 
       {/* Chat Window */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col relati">
         <header className="h-16 border-b flex items-center px-4 lg:px-6 justify-between transition-colors duration-200 border-gray-700">
           <button onClick={toggleSidebar} className="lg:hidden p-2 hover:bg-gray-700 rounded-full cursor-pointer">
             <i className="ri-menu-line w-6 h-6 flex items-center justify-center"></i>
@@ -53,7 +53,7 @@ function App() {
         <ChatWindow theme={theme} />
       </div>
 
-      {/* Settings Modal */}
+      {/* Settings of the Settingmodal  */}
       {isSettingsOpen && <SettingsModal closeSettings={closeSettings} />}
     </div>
   );

@@ -1,15 +1,27 @@
-import React from 'react';
-import { Logo } from '../assets/Logo';
+import React from "react";
+import { Logo } from "../assets/Logo";
 
-function Sidebar({ openSettings }) {
+function Sidebar({ openSettings, setMessages }) {
+  const handleNewChat = () => {
+    setMessages([
+      {
+        id: 1,
+        text: "Hello! I'm your AI assistant. How can I help you today?",
+        isUser: false,
+      },
+    ]);
+  };
+
   return (
     <aside className="w-72 h-screen flex flex-col border-r transition-colors duration-200 bg-gray-800 border-gray-700">
       <div className="p-4 border-b border-gray-700">
         <div className="font-pacifico text-2xl text-center">
-            <Logo />
+          <Logo />
         </div>
       </div>
-      <button className="mx-4 mt-4 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-button flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap">
+      <button 
+        onClick={handleNewChat}
+        className="mx-4 mt-4 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-button flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap">
         <i className="ri-add-line w-5 h-5 flex items-center justify-center"></i>
         New Chat
       </button>
