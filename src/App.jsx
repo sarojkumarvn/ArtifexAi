@@ -12,11 +12,11 @@ function App() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const openSettings = () => {
+  const openSettingsTab = () => {
     setIsSettingsOpen(true);
   };
 
-  const closeSettings = () => {
+  const closeSettingsTab = () => {
     setIsSettingsOpen(false);
   };
 
@@ -28,7 +28,7 @@ function App() {
     <div className={`h-screen flex transition-colors duration-200 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Sidebar for larger screens */}
       <div className={`fixed lg:relative z-30 lg:z-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-200 ease-in-out`}>
-        <Sidebar openSettings={openSettings} />
+        <Sidebar openSettingsTab={openSettingsTab} />
       </div>
 
       {/* Overlay for mobile sidebar */}
@@ -54,7 +54,7 @@ function App() {
       </div>
 
       {/* Settings of the Settingmodal  */}
-      {isSettingsOpen && <SettingsModal closeSettings={closeSettings} />}
+      {isSettingsOpen && <SettingsModal closeSettingsTab={closeSettingsTab} />}
     </div>
   );
 }

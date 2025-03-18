@@ -3,10 +3,6 @@
 body {
   background-color: rgb(20, 20, 43);
 }
-.blur-background {
-  filter: blur(4px); /* Adjust the blur intensity as needed */
-  transition: filter 0.3s ease; /* Smooth transition for the blur effect */
-}
 
 
 
