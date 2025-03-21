@@ -31,7 +31,6 @@ function App() {
         <header className="h-16 border-b sticky top-0 bg-black flex items-center px-4 lg:px-6 justify-between transition-colors duration-200 border-gray-700">
           <h1 className="text-xl ml-10 font-semibold">Artifex AI</h1>
           <button onClick={toggleTheme} className="p-2 hover:bg-gray-700 rounded-full cursor-pointer">
-            <i className={`ri-${theme === 'dark' ? 'sun' : 'moon'}-line w-6 h-6 flex items-center justify-center`}></i>
           </button>
         </header>
         <ChatWindow theme={theme} />
