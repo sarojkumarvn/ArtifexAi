@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserMessagesContext } from "../context/UserMessagesContext";
 
 function Sidebar({ openSettingsTab }) {
   const { setMessages } = useContext(UserMessagesContext);
+
 
   const handleNewChat = () => {
     setMessages([
@@ -16,10 +17,9 @@ function Sidebar({ openSettingsTab }) {
 
   return (
     <aside className="w-72 h-screen flex flex-col border-r transition-colors duration-200 bg-gray-800 border-gray-700">
-      <div className="p-4 border-b border-gray-700">
-        <div className="font-pacifico text-2xl text-center">
-          logo
-        </div>
+      <div className="p-4 border-b border-gray-700 flex justify-center items-center gap-2">
+        <div className="font-pacifico text-2xl text-center">logo</div>
+       
       </div>
       <button
         onClick={handleNewChat}

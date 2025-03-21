@@ -10,8 +10,6 @@ function ChatWindow({ theme }) {
   const [imageCaption, setImageCaption] = useState("");
   const [showImagePopup, setShowImagePopup] = useState(false);
   const fileInputRef = useRef(null);
-  
-  // Fixed: Ensure this ref points to the main messages container
   const messageContainerRef = useRef(null);
 
   // Function to generate bot response
@@ -85,15 +83,13 @@ function ChatWindow({ theme }) {
     }
   };
 
-  //  Scrollibg effect 
-  useEffect(() => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTo({
-        top: messageContainerRef.current.scrollHeight,
-        behavior: "smooth", // Smooth scrolling effect
-      });
-    }
-  }, [messages]);
+  // Function to handle closing the image popup
+  const handleCloseImagePopup = () => {
+    setShowImagePopup(false);
+    setSelectedFile(null);
+    setImagePreview(null);
+    setImageCaption("");
+  };
 
   // Function to send image
   const handleSendImage = async () => {
@@ -112,7 +108,7 @@ function ChatWindow({ theme }) {
     setImageCaption("");
     setShowImagePopup(false);
 
-    // Send image to API
+    // Send User image to the API
     try {
       const botResponse = await generateImageContent(selectedFile);
       setMessages((prevMessages) => [
@@ -132,12 +128,54 @@ function ChatWindow({ theme }) {
     }
   };
 
+  // Scrolling effect
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTo({
+        top: messageContainerRef.current.scrollHeight,
+        behavior: "smooth", // Smooth scrolling effect
+      });
+    }
+  }, [messages]); // Changed dependency from `setMessages` to `messages`
+
   return (
-    <div
-      className={`flex-1 flex flex-col ${
-        showImagePopup ? "blur-background" : ""
-      }`}
-    >
+    <div className={`flex-1 flex flex-col`}>
+      {/* Image Popup */}
+      {showImagePopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-semibold mb-4">Add Image Caption</h2>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="mb-4 rounded-lg w-full h-48 object-cover"
+            />
+            <textarea
+              value={imageCaption}
+              onChange={(e) => setImageCaption(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+              rows="3"
+              placeholder="Add a caption or prompt..."
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={handleCloseImagePopup}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSendImage}
+                className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Messages */}
       <div
         className="flex-1 overflow-y-auto p-6 space-y-4"
         ref={messageContainerRef}
@@ -150,13 +188,13 @@ function ChatWindow({ theme }) {
             <div
               className={`w-8 h-8 rounded-full ${
                 message.isUser ? "bg-gray-600" : "bg-primary"
-              } flex items-center justify-center flex-shrink-0`}
+              } flex items-center justify-center flex-shrink-0 ml-5`}
             >
               <i className={`ri-${message.isUser ? "user" : "robot"}-line`}></i>
             </div>
             <div
               className={`flex-1 transition-colors duration-200 ${
-                theme === "dark" ? "bg-gray-800" : "bg-gray-100"
+                theme === "dark" ? "bg-gray-800" : "bg-gray-100" 
               } rounded-lg p-4 max-w-3xl`}
             >
               {message.text && <p>{message.text}</p>}
@@ -182,12 +220,14 @@ function ChatWindow({ theme }) {
           </div>
         ))}
       </div>
+
+      {/* Input Area */}
       <div className="border-t border-gray-700 p-4 sticky bottom-0 bg-gray-800">
         <div className="max-w-4xl mx-auto">
           <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="w-full bg-gray-800 rounded-lg pl-4 pr-24 py-3 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            className="w-full bg-gray-800 border border-white rounded-lg pl-4 pr-24 py-3 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
             rows="3"
             placeholder="Type your message here..."
           />
